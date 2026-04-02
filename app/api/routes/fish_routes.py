@@ -5,13 +5,18 @@ from app.crud.fish_crud import *
 from app.schemas.fish_schema import FishCreate, FishUpdate
 from app.core.dependencies.auth import get_current_user
 from app.database.connection import get_db
+from app.utils.logger import log_event
 
 router = APIRouter(prefix="/fish",tags=["Fish"])
 
 #------CREATE-----
 @router.post("/")
-def create(fish:FishCreate, db:Session=Depends(get_db),user=Depends(get_current_user)):
-    return create_fish(db,fish)
+def create(fish: FishCreate, db: Session = Depends(get_db), user=Depends(get_current_user)):
+    new_fish = create_fish(db, fish)
+
+    log_event(f"Usuario {user.username} creó fish ID {new_fish.id}")
+
+    return new_fish
 
 #-------READ------
 @router.get("/")
@@ -29,10 +34,12 @@ def update(fish_id:int, fish: FishUpdate,db:Session=Depends(get_db),user=Depends
 
 #-------DELETE------
 @router.delete("/{fish_id}")
-def delete(fish_id: int, db:Session=Depends(get_db),user=Depends(get_current_user)):
-    deleted=delete_fish(db,fish_id)
-    
+def delete(fish_id: int, db: Session = Depends(get_db), user=Depends(get_current_user)):
+    deleted = delete_fish(db, fish_id)
+
     if not deleted:
-        raise HTTPException(status_code=404, detail="Pescado no encontrado")
-    
+        raise HTTPException(status_code=404, detail="Fish no encontrado")
+
+    log_event(f"Usuario {user.username} eliminó fish ID {fish_id}")
+
     return deleted
