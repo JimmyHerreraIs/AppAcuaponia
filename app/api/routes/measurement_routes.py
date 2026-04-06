@@ -6,6 +6,8 @@ from app.schemas.measurement_schema import MeasurementCreate
 from app.core.dependencies.auth import get_current_user
 from app.database.connection import get_db
 from app.utils.logger import log_event
+from app.services.autom_service import controlar_servos, controlar_luz
+
 router= APIRouter(prefix="/measurements",tags=["Measurements"])
 
 @router.post("/")
@@ -16,6 +18,11 @@ def create(
 ):
     new_m = create_measurement(db, measurement)
 
-    log_event(f"Medición creada para fish {measurement.fish_id}")
-
-    return new_m
+    acciones_servos=controlar_servos()
+    acciones_luz=controlar_luz(measurement.light)
+    
+    return{
+        "measurement":new_m,
+        "servos":acciones_servos,
+        "luz":acciones_luz
+    }
