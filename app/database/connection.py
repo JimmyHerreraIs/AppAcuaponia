@@ -3,7 +3,8 @@ from sqlalchemy.orm import sessionmaker, Session
 from app.core.config import settings
 DATABASE_URL = "sqlite:///./test.db"
 engine=create_engine(
-    settings.DATABASE_URL,
+    DATABASE_URL,
+    connect_args={"check_same_thread":False},
     echo=True #Veremos si usamos, sirve para el desarrollo
     
 )

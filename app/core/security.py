@@ -16,7 +16,7 @@ def verify_password(texto_plano_password:str, hash_password:str)-> bool:
 def create_access_token(data:dict):
     copia=data.copy()
     
-    expire=datetime.utcnow+timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    expire=datetime.utcnow()+timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     
     copia.update({"exp":expire})
     

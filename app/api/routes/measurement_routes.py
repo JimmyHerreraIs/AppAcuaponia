@@ -18,7 +18,7 @@ def create(
 ):
     new_m = create_measurement(db, measurement)
 
-    acciones_servos=controlar_servos()
+    acciones_servos=controlar_servos(db)
     acciones_luz=controlar_luz(measurement.light)
     
     return{

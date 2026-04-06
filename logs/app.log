@@ -1,0 +1,7 @@
+2026-04-06 12:40:12,064 -INFO -BEGIN (implicit)
+2026-04-06 12:40:12,068 -INFO -SELECT users.id AS users_id, users.username AS users_username, users.password_hash AS users_password_hash, users.role AS users_role, users.created_at AS users_created_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-04-06 12:40:12,069 -INFO -[generated in 0.00092s] ('jimmy', 1, 0)
+2026-04-06 12:40:12,587 -INFO -ROLLBACK
